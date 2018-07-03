@@ -41,8 +41,9 @@ function TableConders(props) {
                                 <TableCell numeric>{conder.price}</TableCell>
                                 <TableCell numeric>{conder.p}</TableCell>
                                 <TableCell numeric>
-                                    <image src="${conder.thumbnail_base_url}/${conder.thumbnail_path}"
-                                           className="table-img"></image></TableCell>
+                                    <image src={`${conder.thumbnail_base_url}/${conder.thumbnail_path}`}
+                                           className="table-img"></image>
+                                </TableCell>
                             </TableRow>
                         );
                     })}

@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+//import axios from 'axios';
 import {withStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -87,7 +87,7 @@ class FullWidthGrid extends React.Component {
         this.setState({[name]: event.target.checked});
     };
     handleCalc = () => {
-        let q1 = this.state.S * this.state.H * parseInt(this.state.light) / 1000;
+        let q1 = this.state.S * this.state.H * parseInt(this.state.light, 10) / 1000;
         if (this.state.upFloor) {
             q1 = q1 + q1 * 0.15;
         }
@@ -179,8 +179,7 @@ class FullWidthGrid extends React.Component {
     };
 
     handleDialogOpen = (id) => {
-        console.log(id);
-        let data = fakeData.filter(conder=>conder.id==id);
+        let data = fakeData.filter(conder=>conder.id===id);
         this.setState(
             {
                 showDialogData: data[0],
