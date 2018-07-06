@@ -128,8 +128,8 @@ class FullWidthGrid extends React.Component {
                 }
         )
                 .then(function (response) {
-                    // let data = JSON.parse(response.data);
-                    // that.setState({conders: data});
+                    let data = JSON.parse(response.data);
+                    that.setState({conders: data});
                 })
                 .catch(function (error) {
                     console.log(error);
