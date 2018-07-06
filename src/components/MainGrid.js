@@ -1,5 +1,5 @@
 import React from 'react';
-//import axios from 'axios';
+import axios from 'axios';
 import {withStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -14,8 +14,6 @@ import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-
-import fakeData from './data';
 import TableConders from './TableConders';
 import DialogConder from './DialogConder';
 
@@ -111,64 +109,84 @@ class FullWidthGrid extends React.Component {
             Pmin: minRez.toFixed(2),
             Pmax: maxRez.toFixed(2)
         });
-        // axios -------------
-        //     let data = new FormData();
-        //     data.append('max', maxRez);
-        //     data.append('min', minRez);
-        //     axios({
-        //         method:'POST',
-        //         mode: 'no-cors',
-        //         url:'http://vladklimat.local/page/powertest',
-        //         headers: {
-        //             'Access-Control-Allow-Origin': '*',
-        //
-        //         },
-        //         data: data,
-        //
-        //             withCredentials: true,
-        //             credentials: 'same-origin',
-        //         }
-        // )
-        //         .then(function (response) {
-        //             console.log(response);
-        //         })
-        //         .catch(function (error) {
-        //             console.log(error);
-        //         });
-        //
+        let that = this;
+       // axios -------------
+            let data = new FormData();
+            data.append('max', maxRez);
+            data.append('min', minRez);
+            axios({
+                method:'POST',
+                url:'http://vladklimat.com/page/powertest',
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'credentials': 'same-origin'
+
+                },
+                data: data,
+                    withCredentials: true,
+                    credentials: 'same-origin',
+                }
+        )
+                .then(function (response) {
+                    // let data = JSON.parse(response.data);
+                    // that.setState({conders: data});
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
         // };
 
         //---- FETCH-----
-        let myHeaders = new Headers();
-        // myHeaders.append('Content-Type', 'application/json; charset=UTF-8');
-        myHeaders.append('credentials', 'same-origin');
-        myHeaders.append('Access-Control-Allow-Origin', '*');
+        // let myHeaders = new Headers();
+        // // myHeaders.append('Content-Type', 'application/json; charset=UTF-8');
+        // myHeaders.append('credentials', 'same-origin');
+        // myHeaders.append('Access-Control-Allow-Origin', '*');
+        //
+        // let data = new FormData();
+        // data.append('max', maxRez);
+        // data.append('min', minRez);
+        //
+        // let myInit = {
+        //     method: 'POST',
+        //     headers: myHeaders,
+        //     body: data,
+        //     mode: 'no-cors',
+        //     cache: 'default'
+        // };
+        //
+        // let myRequest = new Request('http://vladklimat.local/page/powertest');
+        //
+        // fetch(myRequest, myInit)
+        //     .then((response) => {
+        //         return response;
+        //     })
+        //     .then((data) => {
+        //         console.log((data));
+        //         //that.setState({conders: JSON.parse( data)})
+        //     })
+        //     .catch(err=>{
+        //         console.log(err);
+        //     });
 
-        let data = new FormData();
-        data.append('max', maxRez);
-        data.append('min', minRez);
-
-        let myInit = {
-            method: 'POST',
-            headers: myHeaders,
-            body: data,
-            mode: 'no-cors',
-            cache: 'default'
-        };
-
-        let myRequest = new Request('http://vladklimat.local/page/powertest');
-
-        fetch(myRequest, myInit)
-            .then((response) => {
-                // return response.json();
-                return response;
-            })
-            .then((conders) => {
-                ///console.log(fakeData);
-                this.setState({conders: fakeData})
-            })
-            .catch(alert);
-
+        // window.$.ajax({
+        //     url: '/page/powertest',
+        //     type: 'post',
+        //     dataType: 'json',
+        //     data: {
+        //         max: maxRez,
+        //         min: minRez,
+        //         // _csrf: yii.getCsrfToken()
+        //     },
+        //     success: function (data) {
+        //         console.log(JSON.parse(data));
+        //         that.setState({conders: JSON.parse(data)});
+        //     },
+        //     'error': function (e) {
+        //         console.log(e);
+        //     },
+        //     'cache': false
+        // });
 
     };
 
@@ -179,7 +197,7 @@ class FullWidthGrid extends React.Component {
     };
 
     handleDialogOpen = (id) => {
-        let data = fakeData.filter(conder=>conder.id===id);
+        let data = this.state.conders.filter(conder=>conder.id===id);
         this.setState(
             {
                 showDialogData: data[0],
@@ -193,8 +211,13 @@ class FullWidthGrid extends React.Component {
         return (
 
             <div className={classes.root}>
-                <DialogConder show={this.state.showDialog} handleClose={this.handleDialogClose}
-                              data={this.state.showDialogData}/>
+                <DialogConder show={this.state.showDialog}
+                              handleClose={this.handleDialogClose}
+                              data={this.state.showDialogData}
+                              disableBackdropClick={false}
+                              onBackdropClick={()=>{console.log("!!!!!!")}}
+
+                />
                 <Grid container spacing={24}>
                     <Grid item xs={12}>
                         <Paper className={classes.paper}><h2>Расчет мощности кондиционера</h2></Paper>
@@ -204,7 +227,7 @@ class FullWidthGrid extends React.Component {
                             <h3>Основные параметры</h3>
                             <TextField
                                 id="s"
-                                label="Площадь пом.,м²"
+                                label="Площадь пола,м²"
                                 value={this.state.S}
                                 onChange={this.handleChange('S')}
                                 type="number"

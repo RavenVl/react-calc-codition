@@ -5,10 +5,19 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import {withStyles} from "@material-ui/core/styles/index";
+
+const styles = theme => ({
+    imageDialog:{
+        width:'100%'
+}
+
+});
 
 class DialogConder extends React.Component {
 
     render() {
+        const {classes} = this.props;
         let HtmlToReactParser = require('html-to-react').Parser;
         let htmlToReactParser = new HtmlToReactParser();
         let reactElement = htmlToReactParser.parse(this.props.data.body);
@@ -21,7 +30,8 @@ class DialogConder extends React.Component {
                 >
                     <DialogTitle id="alert-dialog-title">{this.props.data.title}</DialogTitle>
                     <DialogContent>
-
+                        <img src={`${this.props.data.thumbnail_base_url}/${this.props.data.thumbnail_path}`}
+                             className={classes.imageDialog}></img>
                         <DialogContentText id="alert-dialog-description">
                                 {reactElement}
                         </DialogContentText>
@@ -37,4 +47,4 @@ class DialogConder extends React.Component {
     }
 }
 
-export default DialogConder;
+export default withStyles(styles)(DialogConder);

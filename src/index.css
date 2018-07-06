@@ -6,3 +6,9 @@
 /*html {*/
   /*font-size: 17px;*/
 /*}*/
+#alert-dialog-description img{
+    width: 100%;
+}
+#alert-dialog-description p span img{
+    width: 20%;
+}

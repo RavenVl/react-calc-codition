@@ -16,6 +16,9 @@ const styles = theme => ({
     table: {
         minWidth: 700,
     },
+    rowConder:{
+        cursor:'pointer'
+    }
 });
 
 function TableConders(props) {
@@ -34,15 +37,15 @@ function TableConders(props) {
                 <TableBody>
                     {data.map(conder => {
                         return (
-                            <TableRow key={conder.id} onClick={()=>onDialog(conder.id)}>
+                            <TableRow key={conder.id} onClick={()=>onDialog(conder.id)} className={classes.rowConder}>
                                 <TableCell component="th" scope="row">
                                     {conder.title}
                                 </TableCell>
                                 <TableCell numeric>{conder.price}</TableCell>
                                 <TableCell numeric>{conder.p}</TableCell>
                                 <TableCell numeric>
-                                    <image src={`${conder.thumbnail_base_url}/${conder.thumbnail_path}`}
-                                           className="table-img"></image>
+                                    <img src={`${conder.thumbnail_base_url}/${conder.thumbnail_path}`}
+                                           className="table-img"></img>
                                 </TableCell>
                             </TableRow>
                         );
